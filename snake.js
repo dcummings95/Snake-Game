@@ -12,6 +12,7 @@ var snakeY = blockSize * 5;
 var velocityX = 0;
 var velocityY = 0;
 
+var snakeBody = []
 //food
 var foodX;
 var foodY;
@@ -39,13 +40,19 @@ function update() {
     context.fillRect(foodX, foodY, blockSize, blockSize);
 
     if (snakeX == foodX && snakeY == foodY) {
+        snakeBody.push([foodX, foodY]);
         placeFood();
     }
     //snake
     context.fillStyle = "lime";
     snakeX += velocityX * blockSize;
     snakeY += velocityY * blockSize;
+    
     context.fillRect(snakeX, snakeY, blockSize, blockSize);
+    for(let i = 0; i < snakeBody.length; i++){
+        context.fillRect(snakeBody[i][0], snakeBody[i][1], blockSize, blockSize);
+    }
+
 
     
 }

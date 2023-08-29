@@ -17,7 +17,7 @@ var snakeBody = []
 var foodX;
 var foodY;
 
-var score;
+var score = 0;
 var gameOver = false;
 
 window.onload = function() {
@@ -47,8 +47,9 @@ function update() {
 
     if (snakeX == foodX && snakeY == foodY) {
         snakeBody.push([foodX, foodY]);
-        score++;
         placeFood();
+        score+=1;
+        document.getElementById("score").innerText = "Score: " + score;
     }
 
     for (let i = snakeBody.length - 1; i >= 0; i--) {
@@ -132,6 +133,10 @@ function resetGame() {
 
     //Place new food
     placeFood();
+
+    //Reset score
+    score = 0;
+    document.getElementById("score").innerText = "Score: " + score;
 
     //Reset game over flag
     gameOver = false;

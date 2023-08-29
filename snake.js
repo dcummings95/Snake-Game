@@ -17,6 +17,7 @@ var snakeBody = []
 var foodX;
 var foodY;
 
+var score;
 var gameOver = false;
 
 window.onload = function() {
@@ -46,6 +47,7 @@ function update() {
 
     if (snakeX == foodX && snakeY == foodY) {
         snakeBody.push([foodX, foodY]);
+        score++;
         placeFood();
     }
 
@@ -66,10 +68,11 @@ function update() {
 
     //game over conditions
     //out of bounds
-    if (snakeX < 0 || snakeX > cols*blockSize || snakeY < 0 || snakeY > rows*blockSize) {
+    if (snakeX < 0 || snakeX + blockSize > cols*blockSize || snakeY < 0 || snakeY + blockSize > rows*blockSize) {
         gameOver = true;
         alert("Game Over");
     }
+    
 
     //eating yourself
     for (let i = 0; i < snakeBody.length; i++) {
@@ -78,6 +81,14 @@ function update() {
             alert("Game Over");
         }
     }
+
+    if (gameOver) {
+        let playAgain = confirm("Do you want to play again?");
+        if (playAgain) {
+            resetGame();
+        }
+    }
+
 }
 
 function changeDirection(e) {
@@ -105,4 +116,23 @@ function placeFood() {
     //Random 0 - 1 * cols -> (0-19.9999) -> (0-19) * 25
     foodX = Math.floor(Math.random() * cols) * blockSize;
     foodY = Math.floor(Math.random() * rows) * blockSize;
+}
+
+function resetGame() {
+    //Reset snake's position
+    snakeX = blockSize * 5;
+    snakeY = blockSize * 5;
+    
+    //Reset velocity
+    velocityX = 0;
+    velocityY = 0;
+
+    //Clear the snake body
+    snakeBody = [];
+
+    //Place new food
+    placeFood();
+
+    //Reset game over flag
+    gameOver = false;
 }
